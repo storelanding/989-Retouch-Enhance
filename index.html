@@ -10,7 +10,9 @@
   <meta property="og:description" content="Retouch, enhance and reimagine your photos with creative AI tools. Turn every photo into a memorable moment." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#0c0d0a" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238fdc2f'/%3E%3Cstop offset='1' stop-color='%23c8f56a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M32 14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z' fill='%230c0d0a'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/png" href="assets/app-icon.png" />
+  <link rel="apple-touch-icon" href="assets/app-icon.png" />
+  <meta property="og:image" content="assets/screen-home.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -62,9 +64,10 @@
     nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
     .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.1rem; }
     .logo-icon {
-      width: 38px; height: 38px; border-radius: 11px; background: var(--grad);
-      display: grid; place-items: center; box-shadow: 0 6px 20px rgba(200, 245, 106, 0.35);
+      width: 38px; height: 38px; border-radius: 11px; overflow: hidden;
+      box-shadow: 0 6px 20px rgba(200, 245, 106, 0.3); flex: none;
     }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
     .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a { color: var(--muted); font-weight: 500; font-size: 0.95rem; transition: color .2s; }
     .nav-links a:hover { color: var(--text); }
@@ -109,29 +112,15 @@
 
     /* ---------- Phone mockup ---------- */
     .phone-wrap { position: relative; display: flex; justify-content: center; }
-    .phone {
-      width: 300px; height: 610px; border-radius: 46px; padding: 12px;
-      background: linear-gradient(160deg, #262b1c, #0d0f0a);
-      border: 2px solid var(--pink);
-      box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 40px rgba(200, 245, 106, 0.35);
-      position: relative; z-index: 2;
-      animation: float 6s ease-in-out infinite;
+    .hero-shots { position: relative; width: 360px; height: 600px; z-index: 2; }
+    .shot {
+      position: absolute; border-radius: 30px; border: 2px solid rgba(200, 245, 106, 0.55);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 40px rgba(200, 245, 106, 0.25);
+      object-fit: cover; background: #111;
     }
+    .shot-front { width: 290px; aspect-ratio: 9 / 16; left: 0; top: 30px; z-index: 2; animation: float 6s ease-in-out infinite; }
+    .shot-back { width: 240px; aspect-ratio: 9 / 16; right: -10px; top: 0; transform: rotate(7deg); opacity: .85; }
     @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
-    .screen { width: 100%; height: 100%; border-radius: 36px; overflow: hidden; background: #0a0b08; display: flex; flex-direction: column; }
-    .screen-top { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; font-size: 0.8rem; font-weight: 700; }
-    .screen-top .chip { background: var(--grad); color: var(--on-grad); padding: 4px 10px; border-radius: 999px; font-size: 0.7rem; }
-    .screen-photo { margin: 6px 14px; border-radius: 22px; overflow: hidden; flex: 1; position: relative; }
-    .screen-photo .scan {
-      position: absolute; left: 0; right: 0; height: 3px; top: 0;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      box-shadow: 0 0 18px var(--cyan); animation: scan 3.2s ease-in-out infinite;
-    }
-    @keyframes scan { 0% { top: 0; } 50% { top: calc(100% - 3px); } 100% { top: 0; } }
-    .screen-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 14px; }
-    .tool { background: rgba(255,255,255,0.06); border-radius: 14px; padding: 10px 4px; text-align: center; font-size: 0.62rem; color: var(--muted); }
-    .tool .ico { font-size: 1.15rem; display: block; margin-bottom: 3px; }
-    .tool.active { background: var(--grad); color: var(--on-grad); font-weight: 700; }
     .float-card {
       position: absolute; z-index: 3; background: rgba(20, 23, 15, 0.85); backdrop-filter: blur(12px);
       border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px;
@@ -188,8 +177,9 @@
       user-select: none; touch-action: none; cursor: ew-resize;
     }
     .compare .layer { position: absolute; inset: 0; }
-    .compare .layer svg { width: 100%; height: 100%; }
-    .compare .before { filter: grayscale(.75) brightness(.72) contrast(.75) blur(1.6px); }
+    .compare .layer img { width: 100%; height: 100%; object-fit: cover; object-position: center top; pointer-events: none; }
+    .compare .after { filter: saturate(1.12) contrast(1.05) brightness(1.04); }
+    .compare .before { filter: grayscale(.55) brightness(.78) contrast(.8) blur(2px); }
     .compare .after-clip { position: absolute; inset: 0; clip-path: inset(0 0 0 50%); }
     .compare .handle {
       position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: #fff;
@@ -230,7 +220,18 @@
     .styles-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
     .style-card { border-radius: 20px; overflow: hidden; position: relative; aspect-ratio: 3 / 4; border: 1px solid var(--border); transition: transform .3s; }
     .style-card:hover { transform: scale(1.04) rotate(-1deg); }
-    .style-card svg { width: 100%; height: 100%; }
+    .style-card img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+    /* ---------- Screenshots ---------- */
+    .shots-track {
+      display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 10px max(4vw, calc((100vw - 1180px) / 2)) 30px; scrollbar-width: thin; scrollbar-color: var(--violet) transparent;
+    }
+    .shots-track img {
+      flex: none; width: 250px; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 24px; scroll-snap-align: center;
+      border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); transition: transform .3s, border-color .3s;
+    }
+    .shots-track img:hover { transform: translateY(-8px); border-color: rgba(200, 245, 106, 0.6); }
     .style-card span {
       position: absolute; left: 12px; bottom: 12px; padding: 5px 12px; border-radius: 999px;
       background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); font-size: 0.8rem; font-weight: 700;
@@ -300,7 +301,9 @@
       .styles-row { grid-template-columns: repeat(2, 1fr); }
       .styles-row .style-card:nth-child(n+3) { display: none; }
       .fc-1 { left: 0; } .fc-2 { right: 0; }
-      .phone { width: 270px; height: 550px; }
+      .hero-shots { width: 300px; height: 520px; }
+      .shot-front { width: 240px; }
+      .shot-back { width: 200px; right: -6px; }
       .cta-box { padding: 50px 24px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -312,66 +315,11 @@
 <body>
   <div class="glow"></div>
 
-  <!-- Reusable SVG portrait scene -->
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#ff9a8b" />
-        <stop offset="0.5" stop-color="#ff6a88" />
-        <stop offset="1" stop-color="#7f53ac" />
-      </linearGradient>
-      <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#ffd7bf" />
-        <stop offset="1" stop-color="#f2b08f" />
-      </linearGradient>
-      <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#3b2149" />
-        <stop offset="1" stop-color="#1a0f24" />
-      </linearGradient>
-      <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#c8f56a" />
-        <stop offset="1" stop-color="#4d8a12" />
-      </linearGradient>
-      <symbol id="portrait" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
-        <rect width="400" height="500" fill="url(#sky)" />
-        <circle cx="300" cy="120" r="60" fill="#ffe29a" opacity="0.9" />
-        <path d="M0 330 Q100 260 200 310 T400 290 V500 H0 Z" fill="#5b3a8c" opacity="0.7" />
-        <path d="M0 380 Q120 320 240 370 T400 350 V500 H0 Z" fill="#3a2366" opacity="0.85" />
-        <!-- body -->
-        <path d="M90 500 Q100 380 200 370 Q300 380 310 500 Z" fill="url(#shirt)" />
-        <rect x="180" y="300" width="40" height="80" rx="18" fill="url(#skin)" />
-        <!-- hair back -->
-        <ellipse cx="200" cy="235" rx="95" ry="110" fill="url(#hair)" />
-        <!-- face -->
-        <ellipse cx="200" cy="240" rx="68" ry="84" fill="url(#skin)" />
-        <!-- hair front -->
-        <path d="M128 220 Q140 140 210 140 Q275 145 272 225 Q250 175 200 180 Q160 182 128 220 Z" fill="url(#hair)" />
-        <!-- eyes -->
-        <ellipse cx="175" cy="245" rx="7" ry="8" fill="#2b1a33" />
-        <ellipse cx="225" cy="245" rx="7" ry="8" fill="#2b1a33" />
-        <circle cx="177" cy="242" r="2" fill="#fff" />
-        <circle cx="227" cy="242" r="2" fill="#fff" />
-        <path d="M163 228 Q175 222 187 228" stroke="#2b1a33" stroke-width="3" fill="none" stroke-linecap="round" />
-        <path d="M213 228 Q225 222 237 228" stroke="#2b1a33" stroke-width="3" fill="none" stroke-linecap="round" />
-        <!-- cheeks -->
-        <ellipse cx="160" cy="275" rx="13" ry="8" fill="#ff8fa3" opacity="0.5" />
-        <ellipse cx="240" cy="275" rx="13" ry="8" fill="#ff8fa3" opacity="0.5" />
-        <!-- smile -->
-        <path d="M182 290 Q200 306 218 290" stroke="#c2456b" stroke-width="4" fill="none" stroke-linecap="round" />
-        <!-- sparkles -->
-        <path d="M70 90 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z" fill="#fff" opacity="0.85" />
-        <path d="M340 260 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#fff" opacity="0.8" />
-      </symbol>
-    </defs>
-  </svg>
-
   <!-- ===== Header ===== -->
   <header>
     <nav class="container">
       <a href="#" class="logo">
-        <span class="logo-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0c0d0a"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
-        </span>
+        <span class="logo-icon"><img src="assets/app-icon.png" alt="AI Photo Editor &amp; Enhancer app icon" width="38" height="38" /></span>
         AI Photo Editor
       </a>
       <ul class="nav-links" id="navLinks">
@@ -379,6 +327,7 @@
         <li><a href="#enhance">Enhance</a></li>
         <li><a href="#how">How It Works</a></li>
         <li><a href="#styles">AI Styles</a></li>
+        <li><a href="#screenshots">Screenshots</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
       <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.aiphoto.aieditor.photogenerator.retouch" target="_blank" rel="noopener">Get the App</a>
@@ -412,24 +361,9 @@
       <div class="phone-wrap reveal">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
-        <div class="phone">
-          <div class="screen">
-            <div class="screen-top"><span>✨ AI Enhance</span><span class="chip">PRO</span></div>
-            <div class="screen-photo">
-              <svg width="100%" height="100%"><use href="#portrait" /></svg>
-              <div class="scan"></div>
-            </div>
-            <div class="screen-tools">
-              <div class="tool active"><span class="ico">🌟</span>Enhance</div>
-              <div class="tool"><span class="ico">💄</span>Retouch</div>
-              <div class="tool"><span class="ico">🧹</span>Remove</div>
-              <div class="tool"><span class="ico">🎨</span>Styles</div>
-              <div class="tool"><span class="ico">😎</span>Face Swap</div>
-              <div class="tool"><span class="ico">🖼️</span>BG</div>
-              <div class="tool"><span class="ico">🎞️</span>Filters</div>
-              <div class="tool"><span class="ico">💾</span>Save</div>
-            </div>
-          </div>
+        <div class="hero-shots">
+          <img class="shot shot-back" src="assets/screen-retouch.jpg" alt="Retouch your photos naturally – AI Photo Editor screenshot" />
+          <img class="shot shot-front" src="assets/screen-home.jpg" alt="Enhance, restore and create photos with AI – app home screen" />
         </div>
         <div class="float-card fc-1">
           <span class="em i-pink">💄</span>
@@ -492,8 +426,8 @@
       <div class="compare reveal" id="compare">
         <span class="tag l">Original</span>
         <span class="tag r">AI Enhanced</span>
-        <div class="layer before"><svg><use href="#portrait" /></svg></div>
-        <div class="after-clip" id="afterClip"><div class="layer"><svg><use href="#portrait" /></svg></div></div>
+        <div class="layer before"><img src="assets/portrait-retouch.jpg" alt="Original portrait before AI enhancement" draggable="false" /></div>
+        <div class="after-clip" id="afterClip"><div class="layer after"><img src="assets/portrait-retouch.jpg" alt="Portrait after AI enhancement" draggable="false" /></div></div>
         <div class="handle" id="handle"></div>
       </div>
       <div class="reveal">
@@ -535,12 +469,32 @@
         <p>Try different portrait aesthetics and artistic transformations to give your pictures a whole new vibe.</p>
       </div>
       <div class="styles-row reveal">
-        <div class="style-card"><svg style="filter:saturate(1.4) contrast(1.1)"><use href="#portrait" /></svg><span>Vivid</span></div>
-        <div class="style-card"><svg style="filter:sepia(.85) contrast(1.05)"><use href="#portrait" /></svg><span>Vintage</span></div>
-        <div class="style-card"><svg style="filter:hue-rotate(160deg) saturate(1.5)"><use href="#portrait" /></svg><span>Cyberpunk</span></div>
-        <div class="style-card"><svg style="filter:grayscale(1) contrast(1.3)"><use href="#portrait" /></svg><span>Noir</span></div>
-        <div class="style-card"><svg style="filter:hue-rotate(260deg) saturate(1.2) brightness(1.08)"><use href="#portrait" /></svg><span>Dreamy</span></div>
+        <div class="style-card"><img src="assets/portrait-retouch.jpg" alt="Portrait with vivid AI style" style="filter:saturate(1.35) contrast(1.08)" loading="lazy" /><span>Vivid</span></div>
+        <div class="style-card"><img src="assets/portrait-family.jpg" alt="Family portrait with vintage style" style="filter:sepia(.7) contrast(1.05)" loading="lazy" /><span>Vintage</span></div>
+        <div class="style-card"><img src="assets/portrait-wedding.jpg" alt="Wedding portrait with cinematic style" style="filter:contrast(1.15) saturate(.85) hue-rotate(-10deg)" loading="lazy" /><span>Cinematic</span></div>
+        <div class="style-card"><img src="assets/party-memories.jpg" alt="Party photo in black and white noir style" style="filter:grayscale(1) contrast(1.25)" loading="lazy" /><span>Noir</span></div>
+        <div class="style-card"><img src="assets/portrait-family.jpg" alt="Portrait with soft dreamy style" style="filter:brightness(1.1) saturate(1.2) hue-rotate(15deg)" loading="lazy" /><span>Dreamy</span></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===== Screenshots ===== -->
+  <section id="screenshots">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">App Screenshots</span>
+        <h2>Take a look <span class="grad-text">inside the app</span></h2>
+        <p>Enhance, retouch, face swap, restore old photos and animate your memories — all with AI.</p>
+      </div>
+    </div>
+    <div class="shots-track reveal">
+      <img src="assets/screen-home.jpg" alt="Enhance, restore and create photos with AI" loading="lazy" />
+      <img src="assets/screen-enhance.jpg" alt="Enhance every photo with AI" loading="lazy" />
+      <img src="assets/screen-retouch.jpg" alt="Retouch your photos naturally" loading="lazy" />
+      <img src="assets/screen-faceswap.jpg" alt="Together in every memory – AI face swap" loading="lazy" />
+      <img src="assets/screen-restore.jpg" alt="Bring old photos back to life" loading="lazy" />
+      <img src="assets/screen-family.jpg" alt="Create beautiful family portraits" loading="lazy" />
+      <img src="assets/screen-party.jpg" alt="Animate your memories with AI" loading="lazy" />
     </div>
   </section>
 
@@ -597,7 +551,7 @@
       <div class="footer-grid">
         <div>
           <a href="#" class="logo">
-            <span class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0c0d0a"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></span>
+            <span class="logo-icon"><img src="assets/app-icon.png" alt="AI Photo Editor &amp; Enhancer app icon" width="38" height="38" /></span>
             AI Photo Editor &amp; Enhancer
           </a>
           <p>AI Retouch, Enhance &amp; creative tools to make every photo your canvas.</p>
